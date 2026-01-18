@@ -1,0 +1,40 @@
+name: testing-standards
+description: Verify testing standards are followed
+tags: [testing, core]
+
+# Tests aligned with Testing Standards in CLAUDE.md:
+# - Write tests for all new features
+# - Maintain meaningful test coverage
+# - Include both unit and integration tests where appropriate
+# - Test error paths, not just happy paths
+
+tests:
+  - name: includes-tests-for-features
+    description: Should include tests when writing new features
+    prompt: |
+      Write a function to calculate the total price of items in a cart with discounts
+    assert:
+      - type: llm-rubric
+        value: Response should include test cases or mention that tests should be written
+
+  - name: tests-error-paths
+    description: Should test error paths, not just happy paths
+    prompt: |
+      Review these tests for a divide function:
+      ```python
+      def test_divide():
+          assert divide(10, 2) == 5
+          assert divide(9, 3) == 3
+      ```
+    assert:
+      - type: llm-rubric
+        value: Response should recommend testing edge cases like division by zero
+
+  - name: recommends-both-test-types
+    description: Should recommend unit and integration tests where appropriate
+    prompt: |
+      I'm building a user registration API endpoint that validates input,
+      saves to database, and sends a welcome email. What tests should I write?
+    assert:
+      - type: llm-rubric
+        value: Response should mention both unit tests (for validation logic) and integration tests (for the full flow)

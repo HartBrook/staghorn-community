@@ -1,0 +1,48 @@
+name: core-principles
+description: Verify core code quality principles are followed
+tags: [quality, core]
+
+# Tests aligned with Core Principles in CLAUDE.md:
+# - Write clear, self-documenting code
+# - Prefer explicit over implicit
+# - Keep functions small and focused (under 50 lines)
+# - Use meaningful variable and function names
+
+tests:
+  - name: uses-meaningful-names
+    description: Should use meaningful variable and function names
+    prompt: |
+      Review this code:
+      ```python
+      def f(x, y):
+          z = x + y
+          return z
+      ```
+    assert:
+      - type: llm-rubric
+        value: Response should suggest more descriptive names for the function and variables
+
+  - name: prefers-explicit-code
+    description: Should prefer explicit over implicit patterns
+    prompt: |
+      Review this Python code:
+      ```python
+      from utils import *
+
+      def process(d):
+          return {k: v for k, v in d.items() if v}
+      ```
+    assert:
+      - type: llm-rubric
+        value: Response should recommend explicit imports and more descriptive names
+
+  - name: keeps-functions-focused
+    description: Should keep functions small and single-purpose
+    prompt: |
+      This function is 80 lines and does validation, calculation, database updates,
+      email sending, and logging. Is this okay?
+    assert:
+      - type: llm-rubric
+        value: Response should recommend splitting into smaller, focused functions
+      - type: not-contains
+        value: looks good

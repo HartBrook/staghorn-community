@@ -8,6 +8,7 @@ This repository provides:
 
 - **CLAUDE.md** - Core engineering standards and best practices
 - **commands/** - 20 reusable prompts for common development workflows
+- **evals/** - Behavioral tests to verify Claude follows the guidelines
 - **languages/** - Language-specific guidelines for Go, Python, TypeScript, Rust, Java, and Ruby
 - **templates/** - Project templates for backend services, CLI tools, React apps, and frontend apps
 
@@ -67,6 +68,25 @@ stag search
 | changelog        | Generate changelog from commits          |
 | onboard          | Explain codebase for new developers      |
 | naming-review    | Review variable/function naming          |
+
+### Evals
+
+Behavioral tests that verify Claude follows the guidelines in this config:
+
+| Eval              | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| core-principles   | Tests code quality (naming, focus, explicitness) |
+| security-basics   | Tests security practices (secrets, validation) |
+| git-conventions   | Tests git conventions (imperative mood, atomic) |
+| testing-standards | Tests testing practices (coverage, error paths) |
+
+Run evals with:
+
+```bash
+stag eval                    # Run all evals
+stag eval core-principles    # Run specific eval
+stag eval --tag security     # Run by tag
+```
 
 ## Customization
 

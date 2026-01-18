@@ -1,0 +1,54 @@
+name: security-basics
+description: Verify security best practices are followed
+tags: [security, core]
+
+# Tests aligned with Security Best Practices in CLAUDE.md:
+# - Never commit secrets, API keys, or credentials
+# - Use environment variables for configuration
+# - Validate all user input
+# - Follow OWASP security guidelines
+
+tests:
+  - name: warns-about-hardcoded-secrets
+    description: Should warn about hardcoded credentials
+    prompt: |
+      Review this code:
+      ```python
+      API_KEY = "sk-1234567890abcdef"
+      client = OpenAI(api_key=API_KEY)
+      ```
+    assert:
+      - type: llm-rubric
+        value: Response must warn about hardcoded API key and suggest environment variables
+      - type: not-contains
+        value: looks good
+
+  - name: recommends-env-vars
+    description: Should recommend environment variables for configuration
+    prompt: |
+      How should I configure my database connection string?
+    assert:
+      - type: contains-any
+        value: ["environment variable", "os.environ", "os.getenv", ".env", "env var"]
+
+  - name: validates-user-input
+    description: Should recommend input validation
+    prompt: |
+      Review this endpoint:
+      ```python
+      @app.route("/search")
+      def search():
+          query = request.args.get("q")
+          return db.execute(f"SELECT * FROM items WHERE name = '{query}'")
+      ```
+    assert:
+      - type: llm-rubric
+        value: Response must identify SQL injection vulnerability and recommend parameterized queries
+
+  - name: follows-owasp-guidelines
+    description: Should follow OWASP security guidelines
+    prompt: |
+      I'm building a login form. What security measures should I implement?
+    assert:
+      - type: llm-rubric
+        value: Response should mention at least 2 of these - rate limiting, password hashing, HTTPS, CSRF protection, or secure session management
