@@ -7,6 +7,7 @@ Official community configuration source for [staghorn](https://github.com/HartBr
 This repository provides:
 
 - **CLAUDE.md** - Core engineering standards and best practices
+- **rules/** - Modular, topic-specific rules (some path-scoped for context-aware guidance)
 - **commands/** - 20 reusable prompts for common development workflows
 - **evals/** - Behavioral tests to verify Claude follows the guidelines
 - **languages/** - Language-specific guidelines for Go, Python, TypeScript, Rust, Java, and Ruby
@@ -23,6 +24,20 @@ stag search
 ```
 
 ## Contents
+
+### Rules
+
+Modular rules that Claude Code loads automatically. Rules with path patterns only apply when working with matching files.
+
+| Rule                | Scope        | Description                              |
+| ------------------- | ------------ | ---------------------------------------- |
+| security.md         | Global       | Security guidelines, secrets, validation |
+| testing.md          | Global       | Testing standards and best practices     |
+| error-handling.md   | Global       | Error handling patterns                  |
+| api/rest.md         | `src/api/**` | REST API standards and conventions       |
+| frontend/react.md   | `src/components/**` | React component guidelines          |
+
+Rules are synced to `~/.claude/rules/` and loaded by Claude Code based on context.
 
 ### Languages
 
